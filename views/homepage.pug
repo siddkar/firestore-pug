@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  .container
+      .page-header
+        h1(style={color: 'white'})= title
+      p(style={color: 'white'}) Welcome to #{title} 
+
+  .container-fluid      
+      .row
+        .col-sm-3.col-md-6.col-lg-8          
+          // img(src=homepageUrl, alt='Style Store Homepage', width='750', height='550')
+          div#renderDiv
+        .col-sm-9.col-md-6.col-lg-4(style={align:'bottom', frameborder:'1'})        
+          //input.btn.btn-info(type='submit', value='HI!')
+          iframe(name="botButton" allow='microphone;', width='350', height='430', src='https://console.dialogflow.com/api-client/demo/embedded/d1907f41-3979-4f21-9085-7afac4638f61')
+
+      
+
+      
+          
