@@ -63,10 +63,11 @@ io.on('connection', (websocket) => {
             console.log('change type ==>', change.type);
             console.log('doc ==>', change.doc.data());
             if (change.type === 'added' || change.type === 'modified') {
-                websocket.on('snapshot', async () => {
-                    const imgUrl = await fetchImage.getImages();
-                    console.log(imgUrl);
-                    io.sockets.emit('snapshot', { imgUrl });
+                websocket.on('snapshot', () => {
+                    fetchImage.getImages().then((data) => {
+                        console.log(data);
+                        io.sockets.emit('snapshot', { imgUrl: data });
+                    });
                 });
             }
         });
