@@ -54,7 +54,10 @@ const io = socket(server);
 // adding listener to handle connection event, emitted when a websocket is created from client to server.
 io.on('connection', (websocket) => {
     logger.info({ message: `Client connected ${websocket.id}` });
-    db.collection('CurrentUserDb').onSnapshot((snapshot) => {
+    db.collection('CurrentUserDb').onSnapshot({
+        // Listen for document metadata changes
+        includeMetadataChanges: false,
+    }, (snapshot) => {
         const changes = snapshot.docChanges();
         if (changes.length === 1) {
             changes.forEach((change) => {
