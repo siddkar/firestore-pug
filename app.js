@@ -58,9 +58,7 @@ io.on('connection', (websocket) => {
     if (!newConnection) {
         db.collection('CurrentUserDb').onSnapshot((snapshot) => {
             const changes = snapshot.docChanges();
-            console.log('changes ==> ', changes);
             changes.forEach((change) => {
-                logger.info({ message: 'Added Doc => ', doc: change.doc.data() });
                 console.log('change type ==>', change.type);
                 console.log('doc ==>', change.doc.data());
                 if (change.type === 'added' || change.type === 'modified') {
