@@ -64,7 +64,9 @@ io.on('connection', (websocket) => {
             console.log('doc ==>', change.doc.data());
             if (change.type === 'added' || change.type === 'modified') {
                 websocket.on('snapshot', async () => {
-                    io.sockets.emit('chat', await fetchImage.getImages());
+                    const imgUrl = await fetchImage.getImages();
+                    console.log(imgUrl);
+                    io.sockets.emit('snapshot', { imgUrl });
                 });
             }
         });
