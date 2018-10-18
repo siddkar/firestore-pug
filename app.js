@@ -54,22 +54,24 @@ const io = socket(server);
 // adding listener to handle connection event, emitted when a websocket is created from client to server.
 io.on('connection', (websocket) => {
     logger.info({ message: `Client connected ${websocket.id}` });
-
-    db.collection('CurrentUserDb').onSnapshot((snapshot) => {
-        const changes = snapshot.docChanges();
-        console.log('changes ==> ', changes);
-        changes.forEach((change) => {
-            logger.info({ message: 'Added Doc => ', doc: change.doc.data() });
-            console.log('change type ==>', change.type);
-            console.log('doc ==>', change.doc.data());
-            if (change.type === 'added' || change.type === 'modified') {
-                fetchImage.getImages().then((data) => {
-                    console.log(data);
-                    io.sockets.emit('snapshot', { imgUrl: data });
-                });
-            }
+    const newConnection = true;
+    if (!newConnection) {
+        db.collection('CurrentUserDb').onSnapshot((snapshot) => {
+            const changes = snapshot.docChanges();
+            console.log('changes ==> ', changes);
+            changes.forEach((change) => {
+                logger.info({ message: 'Added Doc => ', doc: change.doc.data() });
+                console.log('change type ==>', change.type);
+                console.log('doc ==>', change.doc.data());
+                if (change.type === 'added' || change.type === 'modified') {
+                    fetchImage.getImages().then((data) => {
+                        console.log(data);
+                        io.sockets.emit('snapshot', { imgUrl: data });
+                    });
+                }
+            });
         });
-    });
+    }
 });
 
 export default app;
